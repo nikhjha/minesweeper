@@ -1,0 +1,23 @@
+services:
+  frontend:
+    build:
+      dockerfile : Dockerfile 
+    container_name: minesweeper
+    command: npm run host
+    ports:
+      - 3000:3000
+    volumes:
+      - .:/frontend
+      - pkg:/frontend/pkg
+
+    depends_on:
+      - rust
+  rust:
+    build: 
+      dockerfile: Dockerfile.rust
+    container_name: minesweeper_wasm
+    command: bash
+    volumes:
+      - pkg:/app/pkg
+volumes:
+  pkg:
